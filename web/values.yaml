@@ -1,0 +1,19 @@
+replicaCount: 1
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+service:
+  type: LoadBalancer
+  port: 80
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: feed-my-chicken.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+resources: {}

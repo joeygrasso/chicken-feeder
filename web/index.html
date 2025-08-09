@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ChknFdr</title>
+<!-- Chicken emoji favicon -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%90%94%3C/text%3E%3C/svg%3E">
+<style>
+body {
+background: #f9f6e7;
+font-family: sans-serif;
+}
+.farm-container {
+background: #fffbe6;
+border: 2px solid #e2c275;
+border-radius: 16px;
+max-width: 350px;
+margin: 3rem auto;
+padding: 2rem;
+text-align: center;
+box-shadow: 0 4px 12px #e2c27533;
+}
+.farm-title {
+font-size: 1.7rem;
+margin-bottom: 1rem;
+}
+.input-group {
+margin-bottom: 1.2rem;
+}
+input[type="number"] {
+border-radius: 8px;
+border: 1px solid #e2c275;
+padding: 0.5em;
+width: 80px;
+font-size: 1rem;
+}
+button {
+background: #ffe066;
+border: none;
+border-radius: 8px;
+padding: 0.7em 1.5em;
+font-weight: bold;
+cursor: pointer;
+font-size: 1rem;
+transition: background 0.2s;
+}
+button:hover {
+background: #ffd23f;
+}
+.status {
+margin-top: 1em;
+color: #b8860b;
+min-height: 1.5em;
+}
+</style>
+</head>
+<body>
+<div class="farm-container">
+<div class="farm-title">🐔 Chicken Feeder 🐔</div>
+<div class="input-group">
+<label for="duration">Duration (seconds): </label>
+<input type="number" id="duration" min="1" />
+</div>
+<button id="feedBtn">Feed Chickens</button>
+<div class="status" id="status"></div>
+</div>
+<script>
+// Set your feeder endpoint here
+const FEEDER_ENDPOINT = "http://feeder.gras.so/feeder/run";
+
+document.getElementById('feedBtn').addEventListener('click', function() {
+const duration = document.getElementById('duration').value;
+const statusDiv = document.getElementById('status');
+if (!duration || duration < 1) {
+statusDiv.textContent = "Please enter a valid duration.";
+return;
+}
+statusDiv.textContent = "Feeding the chickens...";
+fetch(`${FEEDER_ENDPOINT}?duration=${encodeURIComponent(duration)}`)
+.then(response => {
+if (response.ok) {
+statusDiv.textContent = "Chickens fed! 🐔🌽";
+} else {
+statusDiv.textContent = "Failed to feed chickens.";
+}
+})
+.catch(() => {
+statusDiv.textContent = "Error connecting to feeder.";
+});
+});
+</script>
+</body>
+</html>
