@@ -1,11 +1,12 @@
 replicaCount: 1
 image:
   repository: nginx
-  tag: stable
+  tag: 1.30.8
   pullPolicy: IfNotPresent
 service:
   type: LoadBalancer
   port: 80
+  annotations: {}
 ingress:
   enabled: true
   className: ""
@@ -16,4 +17,6 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
-resources: {}
+resources:
+  requests: { cpu: 10m, memory: 16Mi }
+  limits: { memory: 64Mi }
